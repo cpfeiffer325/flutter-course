@@ -8,7 +8,6 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -18,45 +17,52 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _qIndex = 0;
+  final questions = const [
+    {
+      'questionText': 'What\'s your favorite color?', 
+      'answers': ['Green', 'Red', 'Blue', 'White'],
+    },
+    {
+      'questionText': 'What\'s your favorite animal?', 
+      'answers': ['Dog', 'Cat', 'Elephant', 'Panda'],
+    },
+    {
+      'questionText': 'Who\'s your favorite instructor?', 
+      'answers': ['Max', 'Stephen', 'Max', 'Max'],
+    },
+  ];
 
   void _response() {
     setState(() {
       _qIndex++;
     });
     print(_qIndex);
+    if (_qIndex < questions.length) {
+      print('We have more questions!');
+    } else {
+      print('No more questions!');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      {
-        'questionText': 'What\'s your favorite color?', 
-        'answers': ['Green', 'Red', 'Blue', 'White']
-      },
-      {
-        'questionText': 'What\'s your favorite animal?', 
-        'answers': ['Dog', 'Cat', 'Elephant', 'Panda']
-      },
-      {
-        'questionText': 'Who\'s your favorite instructor?', 
-        'answers': ['Max', 'Stephen', 'Max', 'Max']
-      }
-    ]
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
+        body: _qIndex < questions.length 
+        ? Column(
           children: [
             Question(
-              questions[_qIndex],
+              questions[_qIndex]['questionText'],
             ),
-            Answer(_response),
-            Answer(_response),
-            Answer(_response),
+            ...(questions[_qIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_response, answer);
+            }).toList()
           ],
-        ),
+        ) : Center(child: Text('You are complete'))
       ),
     );
   }
