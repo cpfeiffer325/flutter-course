@@ -22,8 +22,7 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter App'),
       ),
       body: SingleChildScrollView(
-              child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
